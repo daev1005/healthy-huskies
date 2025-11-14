@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+    --color-egg: #FAF3DD;
+    --color-tea: #C8D5B9;
+    --color-blue: #8FC0A9;
+    --color-teal: #68B0AB;
+    --color-green: #4A7C59;
+    --color-lightertea: #EFFFE0;
+    --color-darktea: #70825D;
+    --font-display: 'Quicksand', sans-serif;
+    --font-sans: 'Nunito', sans-serif;
+}
+
+@layer base {
+    body {
+        @apply font-sans text-base text-green bg-egg;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-display;
+    }
+
+    h1 {
+        @apply text-4xl font-bold text-green mb-4;
+    }
+
+    h2 {
+        @apply text-3xl font-semibold text-green mb-3;
+    }
+
+    h3 {
+        @apply text-2xl font-semibold text-teal mb-2;
+    }
+
+    h4 {
+        @apply text-xl font-medium text-teal mb-2;
+    }
+
+    p {
+        @apply text-base leading-relaxed;
+    }
+
+    a {
+        @apply text-blue hover:text-teal transition-colors;
+    }
+
+    button {
+        @apply transition-all duration-300;
+    }
+}

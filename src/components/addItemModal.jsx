@@ -33,13 +33,13 @@ export default function AddItemModal({ name, isOpen, onClose }) {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md mb-4"
                 >
                     <option value="">Choose a day...</option>
-                    <option value="mon">Monday</option>
-                    <option value="tue">Tuesday</option>
-                    <option value="wed">Wednesday</option>
-                    <option value="thu">Thursday</option>
-                    <option value="fri">Friday</option>
-                    <option value="sat">Saturday</option>
-                    <option value="sun">Sunday</option>
+                    <option value="Mon">Monday</option>
+                    <option value="Tue">Tuesday</option>
+                    <option value="Wed">Wednesday</option>
+                    <option value="Thu">Thursday</option>
+                    <option value="Fri">Friday</option>
+                    <option value="Sat">Saturday</option>
+                    <option value="Sun">Sunday</option>
                 </select>
                 
                 <div className="flex gap-3 justify-end">

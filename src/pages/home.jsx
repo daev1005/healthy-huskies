@@ -91,6 +91,28 @@ export default function Home() {
     }
 
     fetchMeals();
+
+    // Subscribe to real-time changes
+    const subscription = supabase
+      .channel('meal-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*', // Listen to all events (INSERT, UPDATE, DELETE)
+          schema: 'public',
+          table: 'day_item'
+        },
+        (payload) => {
+          console.log('Change detected:', payload);
+          fetchMeals(); // Refetch data when changes occur
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   // Now use the short day name to get meals

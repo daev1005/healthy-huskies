@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-    --color-egg: #FAF3DD;
-    --color-tea: #C8D5B9;
+    --color-lgteal: #384444;
+    --color-gteal: #232b2b;
     --color-blue: #8FC0A9;
     --color-teal: #68B0AB;
     --color-green: #4A7C59;
     --color-lightertea: #EFFFE0;
-    --color-darktea: #70825D;
+    --color-vgreen: #45d054;
     --font-display: 'Quicksand', sans-serif;
     --font-sans: 'Nunito', sans-serif;
 }
 
 @layer base {
     body {
-        @apply font-sans text-base text-green bg-egg;
+        @apply font-sans text-base text-green bg-lgteal;
     }
 
     h1, h2, h3, h4, h5, h6 {
@@ -22,7 +22,7 @@
     }
 
     h1 {
-        @apply text-4xl font-bold text-green mb-4;
+        @apply text-4xl font-bold text-vgreen mb-4;
     }
 
     h2 {
@@ -47,5 +47,31 @@
 
     button {
         @apply transition-all duration-300;
+    }
+
+    /* Custom scrollbar styling */
+    /* For WebKit browsers (Chrome, Safari, Edge) */
+    .overflow-y-auto::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    .overflow-y-auto::-webkit-scrollbar-track {
+        background: var(--color-lgteal);
+        border-radius: 4px;
+    }
+
+    .overflow-y-auto::-webkit-scrollbar-thumb {
+        background: var(--color-teal);
+        border-radius: 4px;
+    }
+
+    .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+        background: var(--color-blue);
+    }
+
+    /* For Firefox */
+    .overflow-y-auto {
+        scrollbar-width: thin;
+        scrollbar-color: var(--color-teal) var(--color-lgteal);
     }
 }

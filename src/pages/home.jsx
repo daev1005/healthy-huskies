@@ -36,7 +36,31 @@ export default function Home() {
   const selectedDate = new Date(selectedDay);
   const selectedDayIndex = selectedDate.getDay(); // 0-6 (Sun-Sat)
   const shortDayName = daysOfWeek[selectedDayIndex];
+  const handleRemoveItem = async (itemId, mealType) => {
+    try {
+      // Delete from Supabase
+      const { error } = await supabase
+        .from("plan")
+        .delete()
+        .eq("id", itemId);
 
+      if (error) throw error;
+
+      // Update local state by removing the item
+      setWeekMeals((prevMeals) => {
+        const updatedMeals = { ...prevMeals };
+        if (updatedMeals[shortDayName]) {
+          updatedMeals[shortDayName][mealType] = updatedMeals[shortDayName][
+            mealType
+          ].filter((item) => item.id !== itemId);
+        }
+        return updatedMeals;
+      });
+    } catch (error) {
+      console.error("Error removing item:", error);
+      alert("Failed to remove item");
+    }
+  };
   // Fetch data from Supabase
   useEffect(() => {
     async function fetchMeals() {
@@ -44,14 +68,25 @@ export default function Home() {
         setLoading(true);
         console.log("Starting to fetch meals...");
 
-        const { data, error } = await supabase.from("day_item").select(`
-          date,
-          menu_item:menu_items!menu_item (
-            item_name,
-            calories,
-            meal_period
-          )
-        `);
+        // Calculate the start of this week (Sunday)
+        const startOfWeek = new Date(today);
+        startOfWeek.setDate(today.getDate() - today.getDay());
+        startOfWeek.setHours(0, 0, 0, 0);
+
+        // DELETE old meals from previous weeks
+        const { error: deleteError } = await supabase
+          .from("plan")
+          .delete()
+          .lt("created_at", startOfWeek.toISOString());
+
+        if (deleteError) {
+          console.error("Error deleting old meals:", deleteError);
+        }
+        // Fetch plan items created this week
+        const { data, error } = await supabase
+          .from("plan")
+          .select("id, meal_name, meal_type, created_at, calories")
+          .gte("created_at", startOfWeek.toISOString());
 
         console.log("Supabase response:", { data, error });
 
@@ -61,8 +96,12 @@ export default function Home() {
         const transformedData = {};
 
         data.forEach((item) => {
-          const day = item.date; // "Sun", "Mon", etc.
-          const mealPeriod = item.menu_item.meal_period.toLowerCase(); // "breakfast", "lunch", "dinner"
+          // Extract the day of week from created_at timestamp
+          const createdDate = new Date(item.created_at);
+          const dayIndex = createdDate.getDay(); // 0-6 (Sun-Sat)
+          const day = daysOfWeek[dayIndex]; // "Sun", "Mon", etc.
+
+          const mealType = item.meal_type.toLowerCase(); // "breakfast", "lunch", or "dinner"
 
           // Initialize day if it doesn't exist
           if (!transformedData[day]) {
@@ -74,9 +113,10 @@ export default function Home() {
           }
 
           // Add the meal to the appropriate meal period
-          transformedData[day][mealPeriod].push({
-            name: item.menu_item.item_name,
-            calories: item.menu_item.calories,
+          transformedData[day][mealType].push({
+            id: item.id,
+            name: item.meal_name,
+            calories: item.calories,
           });
         });
 
@@ -169,7 +209,7 @@ export default function Home() {
     <div className="flex flex-col gap-6 py-5">
       <div className="flex flex-col md:flex-row justify-center gap-6 px-8">
         <div className="w-full flex flex-col justify-start gap-6">
-          <div className="w-full mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-tea rounded-lg cursor-default shadow-lg">
+          <div className="w-full mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
             <h4 className="pb-4">Total calories</h4>
             <div className="w-full max-w-md mx-auto">
               <Pie
@@ -180,7 +220,7 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className=" w-full px-4 py-4 sm:px-6 lg:px-8 bg-tea rounded-lg cursor-default shadow-lg">
+          <div className=" w-full px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
             <div className="flex flex-col">
               <h4>Week</h4>
               <div className="flex flex-col md:flex-row gap-4">
@@ -191,8 +231,8 @@ export default function Home() {
                     className={`w-full px-4 py-6 sm:px-6 lg:px-8 rounded-lg cursor-pointer shadow-lg transition duration-300 ease-in-out
                                         ${
                                           selectedDay === date.toDateString()
-                                            ? "bg-darktea text-white"
-                                            : "bg-lightertea hover:bg-darktea hover:text-white"
+                                            ? "bg-vgreen text-white"
+                                            : "bg-lgteal hover:bg-vgreen hover:text-white"
                                         }`}
                   >
                     {daysOfWeek[index]}
@@ -204,7 +244,7 @@ export default function Home() {
         </div>
 
         {selectedDay ? (
-          <div className="w-full mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-tea rounded-lg cursor-default shadow-lg">
+          <div className="w-full mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
             <h1>Daily plan</h1>
 
             <div>
@@ -214,13 +254,23 @@ export default function Home() {
                   <tr>
                     <th className="w-2/3 text-left">Name:</th>
                     <th className="w-1/3 text-right">Calories:</th>
+                    <th className="w-1/6 text-right"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {breakfastData.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-left">{item.name}</td>
-                      <td className="text-right">{item.calories}</td>
+                      <td className="text-left py-1">{item.name}</td>
+                      <td className="text-right py-1">{item.calories}</td>
+                      <td className="text-right py-1">
+                        <button
+                          onClick={() => handleRemoveItem(item.id, "breakfast")}
+                          className="px-3 py-1 text-sm bg-teal text-white rounded-md hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed transition-all flex-shrink-0"
+                          title="Removed from plan"
+                        >
+                          -
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -232,13 +282,23 @@ export default function Home() {
                   <tr>
                     <th className="w-2/3 text-left">Name:</th>
                     <th className="w-1/3 text-right">Calories:</th>
+                    <th className="w-1/6 text-right"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {lunchData.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-left">{item.name}</td>
-                      <td className="text-right">{item.calories}</td>
+                      <td className="text-left py-1">{item.name}</td>
+                      <td className="text-right py-1">{item.calories}</td>
+                      <td className="text-right py-1">
+                        <button
+                          onClick={() => handleRemoveItem(item.id, "lunch")}
+                          className="px-3 py-1 text-sm bg-teal text-white rounded-md hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed transition-all flex-shrink-0"
+                          title="Removed from plan"
+                        >
+                          -
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -250,13 +310,23 @@ export default function Home() {
                   <tr>
                     <th className="w-2/3 text-left">Name:</th>
                     <th className="w-1/3 text-right">Calories:</th>
+                    <th className="w-1/6 text-right"></th>
                   </tr>
                 </thead>
                 <tbody>
                   {dinnerData.map((item, index) => (
                     <tr key={index}>
-                      <td className="text-left">{item.name}</td>
-                      <td className="text-right">{item.calories}</td>
+                      <td className="text-left py-1">{item.name}</td>
+                      <td className="text-right py-1">{item.calories}</td>
+                      <td className="text-right py-1">
+                        <button
+                          onClick={() => handleRemoveItem(item.id, "dinner")}
+                          className="px-3 py-1 text-sm bg-teal text-white rounded-md hover:bg-blue disabled:opacity-50 disabled:cursor-not-allowed transition-all flex-shrink-0"
+                          title="Removed from plan"
+                        >
+                          -
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

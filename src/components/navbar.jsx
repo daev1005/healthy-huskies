@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Menu, X} from 'lucide-react';
 import { Link } from 'react-router-dom';
+import '../index.css';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,7 @@ export default function Navbar() {
     }
 
     return (
-        <nav className="bg-tea text-green relative z-50" style={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'}}>
+        <nav className="bg-gteal relative z-50" style={{boxShadow: '0 4px 12px rgba(0, 0, 0, 0.25)'}}>
             <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-14">
                     {/*Logo*/}

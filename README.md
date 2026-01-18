@@ -34,8 +34,6 @@ Healthy Huskies is a web application designed to help Northeastern University st
 ---
 
 ## 🛠️ Tech Stack
-*(Update this section as needed)*
-
 - Frontend: React
 - Data Visualization: Charting library (e.g., Chart.js)  
 - Data Source: Northeastern Dining Hall menu data  

@@ -32,7 +32,7 @@ Healthy Huskies is a web application designed to help Northeastern University st
 - Users can share posts and interact with others
 
 ### Demo
-file:///C:/Users/lidav/Videos/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4
+
 
 ---
 

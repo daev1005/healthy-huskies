@@ -31,9 +31,8 @@ Healthy Huskies is a web application designed to help Northeastern University st
 - Includes a **community blog-style page**
 - Users can share posts and interact with others
 
-### Demo
-## Demo Video
 
+## Demo Video
 [![Demo](https://img.youtube.com/vi/yHU2vfD3MkU/0.jpg)](https://youtu.be/yHU2vfD3MkU)
 
 

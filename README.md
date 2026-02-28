@@ -1,6 +1,10 @@
 # 🥗 Healthy Huskies
 
-Healthy Huskies is a web application designed to help Northeastern University students track their daily meals and calorie intake using real dining hall menu data. The platform allows users to browse dining hall menus, log meals into a daily meal plan, and visualize calorie consumption over time.
+**Healthy Huskies** is a full-stack web application that helps Northeastern University students track daily meals and calorie intake using **real dining hall menu data**. The platform allows users to browse dining hall menus, log meals into a personal daily meal plan, and visualize calorie consumption over time.
+
+This project was built to explore **end-to-end web application development**, including API design, authentication, data validation, and frontend state management.
+
+**Repository:** https://github.com/daev1005/healthy-huskies
 
 ---
 
@@ -8,55 +12,95 @@ Healthy Huskies is a web application designed to help Northeastern University st
 
 ### 🍽️ Dining Hall Menu Browsing
 - Browse Northeastern dining hall menus  
-- Currently supports **International Village (IV)** and **Stetson East (Steast)**
-- View food items along with their calorie information
+- Currently supports **International Village (IV)** and **Stetson East (Steast)**  
+- View food items with associated calorie information  
+- Data sourced from Northeastern Dining Services  
+
+---
 
 ### 📊 Meal & Calorie Tracking
-- Add meals to a **daily meal plan**
-- Automatically calculates **total daily calorie intake**
-- Functions similarly to a calorie tracker
-- Users can **remove meals** from their plan at any time to make edits
+- Add meals to a daily meal plan  
+- Automatically calculate total daily calorie intake  
+- Edit or remove meals at any time  
+- Functions similarly to a personal calorie tracker  
+
+---
 
 ### 📅 Weekly Meal History
-- View meals consumed over the **past week**, starting on Sunday
-- Meal plans **reset weekly** to keep tracking organized and relevant
+- View meals consumed over the past week (starting Sunday)  
+- Weekly reset to keep tracking organized and relevant  
+
+---
 
 ### 🥧 Data Visualization
-- Displays a **pie chart** showing calorie distribution by meal period:
+- Pie chart visualization of calorie distribution by meal period:
   - Breakfast
   - Lunch
   - Dinner
 
+---
+
 ### 🌐 Community Page
-- Includes a **community blog-style page**
-- Users can share posts and interact with others
-
-
-## Demo Video
-[![Demo](https://img.youtube.com/vi/yHU2vfD3MkU/0.jpg)](https://youtu.be/yHU2vfD3MkU)
-
+- Blog-style community page  
+- Users can create posts and interact with others  
 
 ---
 
 ## 🛠️ Tech Stack
-- Frontend: React
-- Data Visualization: Charting library (e.g., Chart.js)  
-- Data Source: Northeastern Dining Hall menu data  
+
+**Frontend**
+- React
+- Chart.js (or similar charting library)
+
+**Backend**
+- Node.js
+- Express
+- MongoDB
+
+**Other**
+- RESTful API design
+- JWT-based authentication
+- User-specific data ownership enforcement
 
 ---
 
-## 📈 Future Improvements
+## 📦 Installation & Running Locally
 
-Planned enhancements to improve scalability, usability, and reach:
-
-- 👤 Support for **multiple users**
-- 🔐 **Authentication and login system**
-- 🎨 Improved **UI/UX design**
-- 🏫 Support for **additional dining halls** beyond IV and Steast
-- 📱 Improved mobile responsiveness
+### Prerequisites
+Make sure you have the following installed:
+- **Node.js** (v18 or newer)
+- **MongoDB** (local installation or MongoDB Atlas)
+- **Git**
 
 ---
 
-## 💡 Motivation
+### Clone the Repository
+```bash
+git clone https://github.com/daev1005/healthy-huskies.git
+cd healthy-huskies
+```
 
-Healthy Huskies was built to help students make more informed dietary decisions by combining real dining hall data with intuitive calorie tracking and clear visualizations.
+### Install Dependencies
+```bash
+npm install
+```
+
+### Environment Variables
+
+Create a `.env` file in the project root and add:
+
+```env
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+PORT=5000
+```
+### Run the Application
+
+```bash
+npm run dev
+```
+
+The backend will start at:
+`http://localhost:5000`
+
+If the frontend is run separately, start it using the appropriate frontend script and visit the URL shown in the terminal.

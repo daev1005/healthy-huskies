@@ -62,6 +62,9 @@ This project was built to explore **end-to-end web application development**, in
 - JWT-based authentication
 - User-specific data ownership enforcement
 
+**DEMO**
+- [![Watch the demo](https://img.youtube.com/vi/D0IKClWj9YI/0.jpg)](https://youtu.be/D0IKClWj9YI)
+
 ---
 
 ## 📦 Installation & Running Locally

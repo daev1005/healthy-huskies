@@ -197,9 +197,9 @@ export default function MenuPage() {
   }, [today, selectedHall, API_URL]);
 
   return (
-    <div className="py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-gteal rounded-lg shadow-lg px-6 py-4 mb-6">
+    <div className="h-[calc(100vh-3.5rem)] w-full p-6 lg:p-8 overflow-y-auto">
+      <div className="h-full max-w-none mx-auto">
+        <div className="bg-gteal rounded-lg shadow-lg px-6 py-4 mb-6 animate-pop-fade-in">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <h1 className="text-2xl font-bold text-vgreen">
               Menu for {" "}
@@ -228,12 +228,12 @@ export default function MenuPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col">
+        <div className="h-[calc(100%-5.5rem)] grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col min-h-0 animate-pop-fade-in">
             <div className="bg-orange-500 px-6 py-4 flex-shrink-0">
               <h2 className="text-xl font-bold text-white">Breakfast</h2>
             </div>
-            <div className="px-6 py-4 overflow-y-auto max-h-[500px]">
+            <div className="px-6 py-4 overflow-y-auto flex-1 min-h-0">
               {isLoading ? (
                 <p className="text-blue italic">Loading menu...</p>
               ) : breakfast.length === 0 ? (
@@ -273,11 +273,14 @@ export default function MenuPage() {
             </div>
           </div>
 
-          <div className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col">
+          <div
+            className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col min-h-0 animate-pop-fade-in"
+            style={{ animationDelay: "0.08s" }}
+          >
             <div className="bg-green-500 px-6 py-4 flex-shrink-0">
               <h2 className="text-xl font-bold text-white">Lunch</h2>
             </div>
-            <div className="px-6 py-4 overflow-y-auto max-h-[500px]">
+            <div className="px-6 py-4 overflow-y-auto flex-1 min-h-0">
               {isLoading ? (
                 <p className="text-blue italic">Loading menu...</p>
               ) : lunch.length === 0 ? (
@@ -317,11 +320,14 @@ export default function MenuPage() {
             </div>
           </div>
 
-          <div className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col">
+          <div
+            className="bg-gteal rounded-lg shadow-md overflow-hidden flex flex-col min-h-0 animate-pop-fade-in"
+            style={{ animationDelay: "0.16s" }}
+          >
             <div className="bg-indigo-500 px-6 py-4 flex-shrink-0">
               <h2 className="text-xl font-bold text-white">Dinner</h2>
             </div>
-            <div className="px-6 py-4 overflow-y-auto max-h-[500px]">
+            <div className="px-6 py-4 overflow-y-auto flex-1 min-h-0">
               {isLoading ? (
                 <p className="text-blue italic">Loading menu...</p>
               ) : dinner.length === 0 ? (

@@ -85,6 +85,12 @@ cd healthy-huskies
 npm install
 ```
 
+Install app dependencies:
+```bash
+npm --prefix backend install
+npm --prefix frontend install
+```
+
 ### Environment Variables
 
 Create a `.env` file in the project root and add:
@@ -93,11 +99,29 @@ Create a `.env` file in the project root and add:
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_jwt_secret
 PORT=5000
+FRONTEND_URL=http://localhost:5173
+# Local development only: bypass JWT auth/account creation
+LOCAL_AUTH_BYPASS=true
+# Optional local identity fields:
+# LOCAL_DEV_USER_ID=000000000000000000000001
+# LOCAL_DEV_USER_NAME=Local Dev
+# LOCAL_DEV_USER_EMAIL=local-dev@example.com
+# LOCAL_DEV_USER_ROLE=admin
 ```
 ### Run the Application
 
 ```bash
 npm run dev
+```
+
+This starts both:
+- Backend at `http://localhost:5000`
+- Frontend at `http://localhost:5173`
+
+You can also run each app separately:
+```bash
+npm run dev:backend
+npm run dev:frontend
 ```
 
 The backend will start at:

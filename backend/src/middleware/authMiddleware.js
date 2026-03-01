@@ -2,6 +2,19 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 const protect = async (req, res, next) => {
+    const allowLocalBypass =
+        process.env.LOCAL_AUTH_BYPASS === "true" && process.env.NODE_ENV !== "production";
+
+    if (allowLocalBypass) {
+        req.user = {
+            _id: process.env.LOCAL_DEV_USER_ID || "000000000000000000000001",
+            name: process.env.LOCAL_DEV_USER_NAME || "Local Dev",
+            email: process.env.LOCAL_DEV_USER_EMAIL || "local-dev@example.com",
+            role: process.env.LOCAL_DEV_USER_ROLE || "admin",
+        };
+        return next();
+    }
+
     let token;
 
     // Check if Authorization header exists

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "node src/index.js",
     "test": "jest --runInBand",
     "test:watch": "jest --watch"
   },

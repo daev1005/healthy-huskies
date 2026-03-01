@@ -54,8 +54,8 @@ export default function Community() {
     : messages;
 
   return (
-    <div className="min-h-screen p-6">
-      <div className="max-w-4xl mx-auto">
+    <div className="h-[calc(100vh-3.5rem)] w-full p-6 lg:p-8 overflow-y-auto">
+      <div className="h-full max-w-4xl mx-auto">
         {/* Header */}
         <div className="bg-gteal rounded-xl shadow-lg p-8 mb-6">
           <h1 className="text-4xl font-bold text-emerald-700 mb-2">Community Board</h1>

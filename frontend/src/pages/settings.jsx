@@ -5,10 +5,10 @@ export default function Settings() {
   const [activeTab, setActiveTab] = useState("general");
 
   return (
-    <div className="min-h-screen bg-egg">
-      <div className="flex">
+    <div className="h-[calc(100vh-3.5rem)] w-full p-6 lg:p-8">
+      <div className="h-full flex overflow-hidden">
         {/* Sidebar */}
-        <aside className="w-48 bg-tea border-r border-green/20 p-6 min-h-screen sticky top-6">
+        <aside className="w-48 bg-tea border-r border-green/20 p-6 h-full overflow-y-auto">
           <nav className="space-y-2">
             <SidebarItem
               icon={User}
@@ -44,7 +44,7 @@ export default function Settings() {
         </aside>
 
         {/* Main content */}
-        <main className="flex-1 p-8 bg-egg">
+        <main className="flex-1 p-8 bg-egg h-full overflow-y-auto">
           {/* General Tab */}
           {activeTab === "general" && (
             <section className="mb-12">

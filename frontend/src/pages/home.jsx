@@ -171,10 +171,10 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col gap-6 py-5">
-      <div className="flex flex-col md:flex-row justify-center gap-6 px-8">
-        <div className="w-full flex flex-col justify-start gap-6">
-          <div className="w-full mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
+    <div className="h-[calc(100vh-3.5rem)] w-full p-6 lg:p-8">
+      <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="min-h-0 flex flex-col gap-6">
+          <div className="flex-1 min-h-0 w-full mx-auto px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg animate-pop-fade-in">
             <h4 className="pb-4">Total calories</h4>
             <div className="w-full max-w-md mx-auto">
               <Pie
@@ -185,7 +185,10 @@ export default function Home() {
               />
             </div>
           </div>
-          <div className="w-full px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
+          <div
+            className="w-full px-4 py-4 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg animate-pop-fade-in"
+            style={{ animationDelay: "0.08s" }}
+          >
             <div className="flex flex-col">
               <h4>Week</h4>
               <div className="flex flex-col md:flex-row gap-4">
@@ -215,7 +218,10 @@ export default function Home() {
         </div>
 
         {selectedDay ? (
-          <div className="w-full mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg">
+          <div
+            className="min-h-0 w-full h-full mx-auto px-4 py-12 sm:px-6 lg:px-8 bg-gteal rounded-lg cursor-default shadow-lg overflow-y-auto animate-pop-fade-in"
+            style={{ animationDelay: "0.16s" }}
+          >
             <h1>Daily plan</h1>
 
             <div>

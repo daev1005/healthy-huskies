@@ -70,64 +70,66 @@ This project was built to explore **end-to-end web application development**, in
 ## 📦 Installation & Running Locally
 
 ### Prerequisites
-Make sure you have the following installed:
-- **Node.js** (v18 or newer)
-- **MongoDB** (local installation or MongoDB Atlas)
-- **Git**
 
----
+Make sure you have:
 
-### Clone the Repository
-```bash
+- Docker (Desktop or Engine)
+
+- Docker Compose (usually comes with Docker Desktop)
+
+- No need to install Node.js or MongoDB locally — Docker handles it.
+
+### 1️⃣ Clone the Repository
 git clone https://github.com/daev1005/healthy-huskies.git
 cd healthy-huskies
-```
 
-### Install Dependencies
+### 2️⃣ Create a .env file
+
+In the project root, create .env and add:
 ```bash
-npm install
-```
-
-Install app dependencies:
-```bash
-npm --prefix backend install
-npm --prefix frontend install
-```
-
-### Environment Variables
-
-Create a `.env` file in the project root and add:
-
-```env
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
 PORT=5000
-FRONTEND_URL=http://localhost:5173
-# Local development only: bypass JWT auth/account creation
-LOCAL_AUTH_BYPASS=true
-# Optional local identity fields:
-# LOCAL_DEV_USER_ID=000000000000000000000001
-# LOCAL_DEV_USER_NAME=Local Dev
-# LOCAL_DEV_USER_EMAIL=local-dev@example.com
-# LOCAL_DEV_USER_ROLE=admin
+MONGO_URI=mongodb://mongo:27017/healthyhuskies
+JWT_SECRET=your_jwt_secret
+VITE_API_URL=http://backend:5000
 ```
-### Run the Application
+
+Note: mongo is the hostname for the MongoDB container in Docker.
+
+### 3️⃣ Start the Application
+
+Build and start all containers:
+```bash
+docker compose up --build
+```
+
+This will start:
+
+- Backend → http://localhost:5000
+
+- Frontend → http://localhost:5173
+
+- MongoDB → accessible inside Docker as mongo:27017
+
+Check running containers:
+```bash
+docker ps
+```
+
+### 4️⃣ Stop the Application
+```bash
+docker compose down
+```
+
+Add -v to also remove volumes (resets database):
 
 ```bash
-npm run dev
+docker compose down -v
 ```
 
-This starts both:
-- Backend at `http://localhost:5000`
-- Frontend at `http://localhost:5173`
+### 5️⃣ Notes
 
-You can also run each app separately:
-```bash
-npm run dev:backend
-npm run dev:frontend
-```
+- The frontend uses Vite — Docker runs it in development mode with hot reload.
 
-The backend will start at:
-`http://localhost:5000`
+- Backend automatically connects to MongoDB using the service name mongo.
 
-If the frontend is run separately, start it using the appropriate frontend script and visit the URL shown in the terminal.
+- Environment variables from .env are automatically injected into containers.

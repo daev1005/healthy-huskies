@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 *.env
+*.env.docker
 # Local Netlify folder
 .netlify

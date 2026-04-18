@@ -1,18 +1,22 @@
-# Use Node for dev
-FROM node:20-alpine
+FROM node:20-alpine AS build
 
-# Set working directory
 WORKDIR /app
 
-# Copy package files and install dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm ci
 
-# Copy source code
 COPY . .
 
-# Expose Vite default dev port
-EXPOSE 5173
+# Vite env values are baked in at build time for static production assets.
+ARG VITE_API_URL=http://localhost:5000
+ENV VITE_API_URL=$VITE_API_URL
 
-# Start dev server and listen on all interfaces
-CMD ["npm", "run", "dev", "--", "--host"]
+RUN npm run build
+
+FROM nginx:1.27-alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

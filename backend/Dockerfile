@@ -1,18 +1,22 @@
-# Use official Node.js LTS image
-FROM node:20
 
-# Set working directory
+FROM node:20-alpine AS deps
+
 WORKDIR /app
 
-# Copy package.json and install dependencies
+# Install only production dependencies for a smaller runtime image.
 COPY package*.json ./
-RUN npm install
+RUN npm ci --omit=dev
 
-# Copy all source code
-COPY . .
+FROM node:20-alpine
 
-# Expose the port
+WORKDIR /app
+ENV NODE_ENV=production
+
+COPY package*.json ./
+COPY --from=deps /app/node_modules ./node_modules
+COPY src ./src
+
 EXPOSE 5000
 
-# Start the server
-CMD ["node", "src/index.js"]
+USER node
+CMD ["npm", "run", "start"]
